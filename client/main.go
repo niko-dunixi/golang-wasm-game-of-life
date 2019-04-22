@@ -2,8 +2,11 @@
 
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("Hello WASM!")
+	messages := make(chan string)
+	go func() {
+		for message := range messages {
+			println(message)
+		}
+	}()
 }
