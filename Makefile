@@ -13,6 +13,7 @@ build-server: build-client
 	cp server/wasm_exec.js bin/wasm_exec.js
 
 run:	build
+	./bin/server
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
