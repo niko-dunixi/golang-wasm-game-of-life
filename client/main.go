@@ -24,6 +24,7 @@ func main() {
 	}()
 	messages <- "WASM::main"
 	setupCanvas()
+	setupRenderLoop()
 
 	messages <- "WASM::This will now run forever!"
 	runForever := make(chan bool)
@@ -46,6 +47,17 @@ func setupCanvas() {
 	})
 	window.Call("addEventListener", "resize", updateWindowSizeJSCallback)
 	resetWindowSize()
+}
+
+func setupRenderLoop() {
+	messages <- "WASM::setupRenderLoop"
+	var renderJSCallback js.Func
+	renderJSCallback = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		window.Call("requestAnimationFrame", renderJSCallback)
+		messages <- "WASM::requestAnimationFrame"
+		return nil
+	})
+	window.Call("requestAnimationFrame", renderJSCallback)
 }
 
 func resetWindowSize() {
