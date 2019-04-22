@@ -55,6 +55,7 @@ func setupRenderLoop() {
 	renderJSCallback = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		window.Call("requestAnimationFrame", renderJSCallback)
 		messages <- "WASM::requestAnimationFrame"
+		drawFrame()
 		return nil
 	})
 	window.Call("requestAnimationFrame", renderJSCallback)
@@ -66,4 +67,37 @@ func resetWindowSize() {
 	canvas.Set("width", windowSize.width)
 	canvas.Set("height", windowSize.height)
 	messages <- fmt.Sprintf("WASM::resetWindowSize (%f x %f)", windowSize.width, windowSize.height)
+}
+
+func drawFrame() {
+	clearCanvas()
+	strokeStyle("white")
+	fillStyle("white")
+	lineWidth(0.5)
+
+	drawStrokeRect(5, 5, windowSize.width-10, windowSize.height-10)
+}
+
+func clearCanvas() {
+	context.Call("clearRect", 0, 0, windowSize.width, windowSize.height)
+}
+
+func strokeStyle(style string) {
+	context.Set("strokeStyle", style)
+}
+
+func fillStyle(style string) {
+	context.Set("fillStyle", style)
+}
+
+func lineWidth(width float64) {
+	context.Set("lineWidth", width)
+}
+
+func drawStrokeRect(x, y, width, height float64) {
+	context.Call("strokeRect", x, y, width, height)
+}
+
+func drawFillRect(x, y, width, height float64) {
+	context.Call("fillRect", x, y, width, height)
 }
