@@ -9,4 +9,11 @@ func main() {
 			println(message)
 		}
 	}()
+	messages <- "WASM::main"
+
+	
+
+	messages <- "WASM::This will now run forever!"
+	runForever := make(chan bool)
+	<-runForever
 }
