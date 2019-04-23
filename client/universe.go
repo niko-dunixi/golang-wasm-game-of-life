@@ -34,9 +34,19 @@ func (b *bufferedUniverse) ColumnCount() int {
 
 func (b *bufferedUniverse) IsAlive(row, column int) bool {
 	bufferIndex := b.currentBufferIndex()
+	row = forceInRange(row, b.RowCount())
+	column = forceInRange(column, b.ColumnCount())
 	index := asIndex(b.columns, row, column)
 	isAlive := b.cells[bufferIndex][index]
 	return isAlive
+}
+
+func (b *bufferedUniverse) setNextLife(row, column int, life bool) {
+	bufferIndex := b.nextBufferIndex()
+	row = forceInRange(row, b.RowCount())
+	column = forceInRange(column, b.ColumnCount())
+	index := asIndex(b.columns, row, column)
+	b.cells[bufferIndex][index] = life
 }
 
 func (b *bufferedUniverse) currentBufferIndex() int {
@@ -49,6 +59,12 @@ func (b *bufferedUniverse) nextBufferIndex() int {
 
 func asIndex(columnCount, row, column int) int {
 	return columnCount*row + column
+}
+
+func forceInRange(value, maxValue int) int {
+	positiveValue := uint(value)
+	positiveMaxValue := uint(maxValue)
+	return int(positiveValue % positiveMaxValue)
 }
 
 func NewBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse {
