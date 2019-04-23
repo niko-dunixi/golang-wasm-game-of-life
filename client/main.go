@@ -13,12 +13,13 @@ import (
 )
 
 var (
-	messages   chan string
-	window     = js.Global()
-	canvas     js.Value
-	context    js.Value
-	windowSize struct{ width, height float64 }
-	random     *rand.Rand
+	messages      chan string
+	window        = js.Global()
+	canvas        js.Value
+	context       js.Value
+	windowSize    struct{ width, height float64 }
+	rows, columns int
+	random        *rand.Rand
 )
 
 func main() {
@@ -61,35 +62,32 @@ func setupCanvas() {
 	resetWindowSize()
 }
 
-func parseUrlQueryParams(pageUrl string) (params map[string]string) {
-	currentTimeAsSeed := strconv.FormatInt(time.Now().UnixNano(), 10)
-	params = map[string]string{
-		"rows":    "10",
-		"columns": "10",
+func parseUrlQueryParams(pageUrl string) (params map[string]int64) {
+	currentTimeAsSeed := time.Now().UnixNano()
+	params = map[string]int64{
+		"rows":    10,
+		"columns": 10,
 		"seed":    currentTimeAsSeed,
 	}
 	parse, e := url.Parse(pageUrl)
 	if e != nil {
 		return
 	}
-	for key, value := range parse.Query() {
-		if len(value) > 0 {
-			params[key] = value[0]
+	for paramKey, paramValues := range parse.Query() {
+		if len(paramValues) > 0 {
+			if value, e := strconv.ParseInt(paramValues[0], 10, 64); e == nil {
+				params[paramKey] = value
+			} else {
+				params[paramKey] = -1
+			}
 		}
 	}
 	return
 }
 
-func initializeRandom(seed string) *rand.Rand {
-	var source rand.Source
-	if value, err := strconv.ParseInt(seed, 10, 64); err != nil {
-		nano := time.Now().UnixNano()
-		messages <- fmt.Sprintf("WASM::initializeRandom can't parse seed, using time.Now().UnixNano(): %d", nano)
-		source = rand.NewSource(nano)
-	} else {
-		messages <- fmt.Sprintf("WASM::initializeRandom using seed: %d", value)
-		source = rand.NewSource(value)
-	}
+func initializeRandom(seed int64) *rand.Rand {
+	messages <- fmt.Sprintf("WASM::initializeRandom using seed: %d", seed)
+	source := rand.NewSource(seed)
 	return rand.New(source)
 }
 
