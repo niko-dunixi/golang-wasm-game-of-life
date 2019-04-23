@@ -4,7 +4,12 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
+	"net/url"
+	"strconv"
 	"syscall/js"
+	"time"
 )
 
 var (
@@ -13,6 +18,7 @@ var (
 	canvas     js.Value
 	context    js.Value
 	windowSize struct{ width, height float64 }
+	random     *rand.Rand
 )
 
 func main() {
@@ -34,6 +40,12 @@ func main() {
 func setupCanvas() {
 	messages <- "WASM::setupCanvas"
 	document := window.Get("document")
+
+	pageUrl := document.Get("location").Get("href").String()
+	params := parseUrlQueryParams(pageUrl)
+	messages <- fmt.Sprintf("WASM::setupCanvas Params: %+v", params)
+	random = initializeRandom(params["seed"])
+
 	canvas = document.Call("createElement", "canvas")
 
 	body := document.Get("body")
@@ -47,6 +59,38 @@ func setupCanvas() {
 	})
 	window.Call("addEventListener", "resize", updateWindowSizeJSCallback)
 	resetWindowSize()
+}
+
+func parseUrlQueryParams(pageUrl string) (params map[string]string) {
+	currentTimeAsSeed := strconv.FormatInt(time.Now().UnixNano(), 10)
+	params = map[string]string{
+		"rows":    "10",
+		"columns": "10",
+		"seed":    currentTimeAsSeed,
+	}
+	parse, e := url.Parse(pageUrl)
+	if e != nil {
+		return
+	}
+	for key, value := range parse.Query() {
+		if len(value) > 0 {
+			params[key] = value[0]
+		}
+	}
+	return
+}
+
+func initializeRandom(seed string) *rand.Rand {
+	var source rand.Source
+	if value, err := strconv.ParseInt(seed, 10, 64); err != nil {
+		nano := time.Now().UnixNano()
+		messages <- fmt.Sprintf("WASM::initializeRandom can't parse seed, using time.Now().UnixNano(): %d", nano)
+		source = rand.NewSource(nano)
+	} else {
+		messages <- fmt.Sprintf("WASM::initializeRandom using seed: %d", value)
+		source = rand.NewSource(value)
+	}
+	return rand.New(source)
 }
 
 func setupRenderLoop() {
@@ -74,8 +118,17 @@ func drawFrame() {
 	strokeStyle("white")
 	fillStyle("white")
 	lineWidth(0.5)
+	padding := float64(4)
 
-	drawStrokeRect(5, 5, windowSize.width-10, windowSize.height-10)
+	squareSize := math.Min(windowSize.width/10, windowSize.height/10)
+	for row := 0; row < 10; row ++ {
+		for column := 0; column < 10; column++ {
+			x := float64(column)*squareSize + padding
+			y := float64(row)*squareSize + padding
+			side := squareSize - padding
+			drawStrokeRect(x, y, side, side)
+		}
+	}
 }
 
 func clearCanvas() {
