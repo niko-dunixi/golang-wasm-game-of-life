@@ -120,11 +120,12 @@ func drawFrame() {
 	padding := float64(4)
 
 	squareSize := math.Min(windowSize.width/10, windowSize.height/10)
+	side := squareSize - padding*2
+
 	for row := 0; row < 10; row ++ {
 		for column := 0; column < 10; column++ {
 			x := float64(column)*squareSize + padding
 			y := float64(row)*squareSize + padding
-			side := squareSize - padding*2
 			drawStrokeRect(x, y, side, side)
 		}
 	}
