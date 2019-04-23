@@ -4,20 +4,26 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <style>
-        html {
-            height: 100%;
-            width: 100%;
+        /*
+        https://stackoverflow.com/a/8486324/1478636
+        */
+        * {
+            margin: 0;
+            padding: 0;
         }
 
-        body {
-            overflow: hidden;
-            min-width: 100%;
-            min-height: 100%;
-            padding: 0;
-            margin: 0;
+        html, body {
+            width: 100%;
+            height: 100%;
             background-color: #000000;
             color: #FFFFFF;
             font-family: Arial, Helvetica, sans-serif
+        }
+
+        canvas {
+            display: block;
+            top: 0;
+            left: 0;
         }
     </style>
     <script type="text/javascript" src="./wasm_exec.js"></script>

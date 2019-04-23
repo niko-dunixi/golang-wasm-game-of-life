@@ -104,6 +104,7 @@ func setupRenderLoop() {
 }
 
 func resetWindowSize() {
+	// https://stackoverflow.com/a/8486324/1478636
 	windowSize.width = window.Get("innerWidth").Float()
 	windowSize.height = window.Get("innerHeight").Float()
 	canvas.Set("width", windowSize.width)
@@ -123,7 +124,7 @@ func drawFrame() {
 		for column := 0; column < 10; column++ {
 			x := float64(column)*squareSize + padding
 			y := float64(row)*squareSize + padding
-			side := squareSize - padding
+			side := squareSize - padding*2
 			drawStrokeRect(x, y, side, side)
 		}
 	}
