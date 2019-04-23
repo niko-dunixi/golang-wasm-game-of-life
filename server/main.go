@@ -21,7 +21,7 @@ func main() {
 		Addr: ":4141",
 	}
 	go func() {
-		if err := srv.ListenAndServe(); err != nil {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalln(err)
 		}
 	}()
@@ -31,8 +31,10 @@ func main() {
 	<-stop
 	log.Println("Exit requested. Now halting.")
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if err := srv.Shutdown(ctx); err != nil {
+	if err := srv.Shutdown(ctx); err != nil && err != http.ErrServerClosed {
 		log.Fatalln(err)
+	} else {
+		log.Println("Clean exit")
 	}
 }
 
