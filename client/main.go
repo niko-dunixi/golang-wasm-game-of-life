@@ -97,9 +97,16 @@ func setupRenderLoop() {
 	messages <- "WASM::setupRenderLoop"
 	var renderJSCallback js.Func
 	renderJSCallback = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		window.Call("requestAnimationFrame", renderJSCallback)
 		messages <- "WASM::requestAnimationFrame"
-		drawFrame()
+		//if universe.Generation() < 3 {
+		//	messages <- fmt.Sprintf("%s", universe)
+		//}
+		draw()
+		update()
+		window.Call("setTimeout", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			window.Call("requestAnimationFrame", renderJSCallback)
+			return nil
+		}), 500)
 		return nil
 	})
 	window.Call("requestAnimationFrame", renderJSCallback)
@@ -114,7 +121,7 @@ func resetWindowSize() {
 	messages <- fmt.Sprintf("WASM::resetWindowSize (%f x %f)", windowSize.width, windowSize.height)
 }
 
-func drawFrame() {
+func draw() {
 	clearCanvas()
 	strokeStyle("white")
 	fillStyle("white")
@@ -135,6 +142,10 @@ func drawFrame() {
 			}
 		}
 	}
+}
+
+func update() {
+	universe.Iterate()
 }
 
 func clearCanvas() {
