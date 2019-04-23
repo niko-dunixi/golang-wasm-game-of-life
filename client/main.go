@@ -20,6 +20,7 @@ var (
 	windowSize    struct{ width, height float64 }
 	rows, columns int
 	random        *rand.Rand
+	universe      Universe
 )
 
 func main() {
@@ -46,6 +47,7 @@ func setupCanvas() {
 	params := parseUrlQueryParams(pageUrl)
 	messages <- fmt.Sprintf("WASM::setupCanvas Params: %+v", params)
 	random = initializeRandom(params["seed"])
+	universe = NewBufferedUniverse(int(params["rows"]), int(params["columns"]), random)
 
 	canvas = document.Call("createElement", "canvas")
 
@@ -126,7 +128,11 @@ func drawFrame() {
 		for column := 0; column < 10; column++ {
 			x := float64(column)*squareSize + padding
 			y := float64(row)*squareSize + padding
-			drawStrokeRect(x, y, side, side)
+			if universe.IsAlive(row, column) {
+				drawFillRect(x, y, side, side)
+			} else {
+				drawStrokeRect(x, y, side, side)
+			}
 		}
 	}
 }

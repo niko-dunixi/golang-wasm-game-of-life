@@ -33,7 +33,22 @@ func (b *bufferedUniverse) ColumnCount() int {
 }
 
 func (b *bufferedUniverse) IsAlive(row, column int) bool {
-	return false
+	bufferIndex := b.currentBufferIndex()
+	index := asIndex(b.columns, row, column)
+	isAlive := b.cells[bufferIndex][index]
+	return isAlive
+}
+
+func (b *bufferedUniverse) currentBufferIndex() int {
+	return int(b.generation % 2)
+}
+
+func (b *bufferedUniverse) nextBufferIndex() int {
+	return int((b.generation + 1) % 2)
+}
+
+func asIndex(columnCount, row, column int) int {
+	return columnCount*row + column
 }
 
 func NewBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse {
