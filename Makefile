@@ -4,7 +4,7 @@ build:	clean build-client build-server
 
 build-client: gomodgen
 	export GO111MODULE=on
-	env GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o bin/client.wasm client/main.go
+	env GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o bin/client.wasm client/*.go
 
 build-server: build-client
 	export GO111MODULE=on
