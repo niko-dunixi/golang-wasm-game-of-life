@@ -19,5 +19,4 @@ clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
 go.mod:
-	chmod u+x gomod.sh
-	./gomod.sh
+	go mod init "github.com/paul-nelson-baker/wasm-game-of-life"
