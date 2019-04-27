@@ -15,16 +15,36 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="./wasm_exec.js"></script>
+    <style>
+        body {
+            overflow:hidden;
+            background-color: #00a6a6;
+        }
+
+        .game-section {
+            background-color: #efca08;
+        }
+
+        .title-section {
+            color: #fff;
+            text-align: right;
+            background-color: #00a6a6;
+        }
+
+        .title-section h1, .title-section h2 {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md">
-            <canvas id="canvas"></canvas>
+        <div class="col-md game-section">
+            <canvas id="canvas"/>
         </div>
-        <div class="col-sm">
-            <h1>Conway's Game of Life</h1>
-            <h2>A GoLang WASM Implementation</h2>
+        <div class="col-sm title-section">
+            <h1 class="align-bottom align-text-bottom">Conway's Game of Life</h1>
+            <h2 class="align-bottom align-text-bottom">A GoLang WASM Implementation</h2>
         </div>
     </div>
 </div>

@@ -108,7 +108,7 @@ func setupRenderLoop() {
 
 func resetWindowSize() {
 	// https://stackoverflow.com/a/8486324/1478636
-	squareWindowSide := math.Min(window.Get("innerWidth").Float(), window.Get("innerHeight").Float()) - 25
+	squareWindowSide := math.Min(window.Get("innerWidth").Float(), window.Get("innerHeight").Float())
 	windowSize.width = squareWindowSide
 	windowSize.height = squareWindowSide
 	canvas.Set("width", windowSize.width)
@@ -118,8 +118,9 @@ func resetWindowSize() {
 
 func draw() {
 	clearCanvas()
-	strokeStyle("black")
-	fillStyle("black")
+	color := "#29335c"
+	strokeStyle(color)
+	fillStyle(color)
 	lineWidth(0.75)
 	padding := float64(4)
 	innerPadding := 2 * padding
