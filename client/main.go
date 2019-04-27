@@ -18,7 +18,6 @@ var (
 	canvas        js.Value
 	context       js.Value
 	windowSize    struct{ width, height float64 }
-	rows, columns int
 	random        *rand.Rand
 	universe      Universe
 )
