@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"math/rand"
+	"sync"
 )
 
 type bufferedUniverse struct {
@@ -25,25 +26,32 @@ func (b *bufferedUniverse) Generation() uint {
 }
 
 func (b *bufferedUniverse) Iterate() {
+	var wg sync.WaitGroup
+	wg.Add(b.ColumnCount() * b.RowCount())
+
 	for currentRow := 0; currentRow < b.RowCount(); currentRow++ {
 		for currentColumn := 0; currentColumn < b.ColumnCount(); currentColumn++ {
-			// https://rustwasm.github.io/docs/book/game-of-life/rules.html
-			// https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules
-			//    Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-			//    Any live cell with two or three live neighbours lives on to the next generation.
-			//    Any live cell with more than three live neighbours dies, as if by overpopulation.
-			//    Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-			currentlyAlive := b.IsAlive(currentRow, currentColumn)
-			liveNeighborCount := b.countLiveNeighbors(currentRow, currentColumn)
-			if currentlyAlive {
-				willSurvive := liveNeighborCount == 2 || liveNeighborCount == 3
-				b.setNextLife(currentRow, currentColumn, willSurvive)
-			} else {
-				willBeBorn := liveNeighborCount == 3
-				b.setNextLife(currentRow, currentColumn, willBeBorn)
-			}
+			go func(row, column int) {
+				defer wg.Done()
+				// https://rustwasm.github.io/docs/book/game-of-life/rules.html
+				// https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules
+				//    Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+				//    Any live cell with two or three live neighbours lives on to the next generation.
+				//    Any live cell with more than three live neighbours dies, as if by overpopulation.
+				//    Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+				currentlyAlive := b.IsAlive(row, column)
+				liveNeighborCount := b.countLiveNeighbors(row, column)
+				if currentlyAlive {
+					willSurvive := liveNeighborCount == 2 || liveNeighborCount == 3
+					b.setNextLife(row, column, willSurvive)
+				} else {
+					willBeBorn := liveNeighborCount == 3
+					b.setNextLife(row, column, willBeBorn)
+				}
+			}(currentRow, currentColumn)
 		}
 	}
+	wg.Wait()
 	b.generation = b.generation + 1
 }
 
