@@ -117,9 +117,11 @@ func asIndex(columnCount, row, column int) int {
 }
 
 func forceInRange(value, maxValue int) int {
-	positiveValue := uint(value)
-	positiveMaxValue := uint(maxValue)
-	return int(positiveValue % positiveMaxValue)
+	// Modding doesn't work for negative numbers, so we force it into the positive number range.
+	for ; value < 0; value += maxValue {
+	}
+	value %= maxValue
+	return value
 }
 
 func NewBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse {
