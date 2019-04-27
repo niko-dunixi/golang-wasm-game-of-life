@@ -40,3 +40,27 @@ func TestBufferedUniverse_IsAlive(t *testing.T) {
 		t.Errorf("Cells weren't alive\n%s", u)
 	}
 }
+
+func TestBufferedUniverse_Iterate(t *testing.T) {
+	// Oscillator Ia:
+	//   00000
+	//   00X00
+	//   00X00
+	//   00X00
+	//   00000
+	// Oscillator Ib:
+	//   00000
+	//   00000
+	//   0XXX0
+	//   00000
+	//   00000
+	oscillatorOne := NewBufferedUniverse(5, 5, func(b *[]bool) {
+		bools := *b
+		bools[7] = true
+		bools[12] = true
+		bools[17] = true
+	})
+	if oscillatorOne.IsDead(1, 2) || oscillatorOne.IsDead(2, 2) || oscillatorOne.IsDead(3, 2) {
+		t.Errorf("Cells weren't alive\n%s", oscillatorOne)
+	}
+}
