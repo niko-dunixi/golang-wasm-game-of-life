@@ -32,20 +32,17 @@ func (b *bufferedUniverse) Iterate() {
 			//    Any live cell with more than three live neighbours dies, as if by overpopulation.
 			//    Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 			currentlyAlive := b.IsAlive(currentRow, currentColumn)
-			currentlyDead := !currentlyAlive
 			liveNeighborCount := b.countLiveNeighbors(currentRow, currentColumn)
-			if currentlyAlive && liveNeighborCount < 2 {
-				b.setNextLife(currentRow, currentColumn, false)
-			} else if currentlyAlive && (liveNeighborCount >= 2 || liveNeighborCount <= 3) {
-				b.setNextLife(currentRow, currentColumn, true)
-			} else if currentlyAlive && liveNeighborCount > 3 {
-				b.setNextLife(currentRow, currentColumn, false)
-			} else if currentlyDead && liveNeighborCount == 3 {
-				b.setNextLife(currentRow, currentColumn, true)
+			if currentlyAlive {
+				willSurvive := liveNeighborCount == 2 || liveNeighborCount == 3
+				b.setNextLife(currentRow, currentColumn, willSurvive)
+			} else {
+				willBeBorn := liveNeighborCount == 3
+				b.setNextLife(currentRow, currentColumn, willBeBorn)
 			}
 		}
 	}
-	b.generation++
+	b.generation = b.generation + 1
 }
 
 func (b *bufferedUniverse) countLiveNeighbors(row, column int) int {
