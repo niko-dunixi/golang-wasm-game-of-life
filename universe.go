@@ -139,3 +139,7 @@ func NewBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse
 		cells:      cellBuffer,
 	}
 }
+
+func NewRand(s int64) *rand.Rand {
+	return rand.New(rand.NewSource(s))
+}

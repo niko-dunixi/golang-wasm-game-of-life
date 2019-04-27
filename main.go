@@ -88,8 +88,7 @@ func parseUrlQueryParams(pageUrl string) (params map[string]int64) {
 
 func initializeRandom(seed int64) *rand.Rand {
 	messages <- fmt.Sprintf("WASM::initializeRandom using seed: %d", seed)
-	source := rand.NewSource(seed)
-	return rand.New(source)
+	return NewRand(seed)
 }
 
 func setupRenderLoop() {
