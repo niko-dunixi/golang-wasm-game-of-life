@@ -66,8 +66,8 @@ func setupCanvas() {
 func parseUrlQueryParams(pageUrl string) (params map[string]int64) {
 	currentTimeAsSeed := time.Now().UnixNano()
 	params = map[string]int64{
-		"rows":    10,
-		"columns": 10,
+		"rows":    50,
+		"columns": 50,
 		"seed":    currentTimeAsSeed,
 	}
 	parse, e := url.Parse(pageUrl)
@@ -104,7 +104,7 @@ func setupRenderLoop() {
 		window.Call("setTimeout", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			window.Call("requestAnimationFrame", renderJSCallback)
 			return nil
-		}), 500)
+		}), 75)
 		return nil
 	})
 	window.Call("requestAnimationFrame", renderJSCallback)
@@ -123,7 +123,7 @@ func draw() {
 	clearCanvas()
 	strokeStyle("white")
 	fillStyle("white")
-	lineWidth(4)
+	lineWidth(0.75)
 	padding := float64(4)
 	innerPadding := 2 * padding
 
