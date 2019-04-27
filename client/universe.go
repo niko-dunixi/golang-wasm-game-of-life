@@ -100,11 +100,11 @@ func (b *bufferedUniverse) nextBufferIndex() int {
 func (b *bufferedUniverse) String() string {
 	buffer := bytes.Buffer{}
 	for currentRow := int(0); currentRow < b.RowCount(); currentRow++ {
-		for currentColumns := int(0); currentColumns < b.ColumnCount(); currentColumns++ {
-			if b.IsAlive(currentColumns, currentRow) {
-				buffer.Write([]byte("■"))
-			} else {
+		for currentColumn := int(0); currentColumn < b.ColumnCount(); currentColumn++ {
+			if b.IsAlive(currentRow, currentColumn) {
 				buffer.Write([]byte("□"))
+			} else {
+				buffer.Write([]byte("■"))
 			}
 		}
 		buffer.Write([]byte("\n"))

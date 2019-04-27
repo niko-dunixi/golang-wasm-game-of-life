@@ -13,13 +13,13 @@ import (
 )
 
 var (
-	messages      chan string
-	window        = js.Global()
-	canvas        js.Value
-	context       js.Value
-	windowSize    struct{ width, height float64 }
-	random        *rand.Rand
-	universe      Universe
+	messages   chan string
+	window     = js.Global()
+	canvas     js.Value
+	context    js.Value
+	windowSize struct{ width, height float64 }
+	random     *rand.Rand
+	universe   Universe
 )
 
 func main() {
@@ -97,9 +97,9 @@ func setupRenderLoop() {
 	var renderJSCallback js.Func
 	renderJSCallback = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		messages <- "WASM::requestAnimationFrame"
-		//if universe.Generation() < 3 {
-		//	messages <- fmt.Sprintf("%s", universe)
-		//}
+		if universe.Generation() < 4 {
+			messages <- fmt.Sprintf("%s", universe)
+		}
 		draw()
 		update()
 		window.Call("setTimeout", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
