@@ -112,9 +112,13 @@ func (b *bufferedUniverse) String() string {
 	for currentRow := 0; currentRow < b.RowCount(); currentRow++ {
 		for currentColumn := 0; currentColumn < b.ColumnCount(); currentColumn++ {
 			if b.IsAlive(currentRow, currentColumn) {
-				buffer.Write([]byte("□"))
-			} else {
+				//buffer.Write([]byte("□"))
+				//buffer.Write([]byte("X"))
 				buffer.Write([]byte("■"))
+			} else {
+				//buffer.Write([]byte("■"))
+				//buffer.Write([]byte("0"))
+				buffer.Write([]byte("□"))
 			}
 		}
 		buffer.Write([]byte("\n"))
