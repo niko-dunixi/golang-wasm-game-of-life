@@ -109,8 +109,8 @@ func (b *bufferedUniverse) nextBufferIndex() int {
 
 func (b *bufferedUniverse) String() string {
 	buffer := bytes.Buffer{}
-	for currentRow := int(0); currentRow < b.RowCount(); currentRow++ {
-		for currentColumn := int(0); currentColumn < b.ColumnCount(); currentColumn++ {
+	for currentRow := 0; currentRow < b.RowCount(); currentRow++ {
+		for currentColumn := 0; currentColumn < b.ColumnCount(); currentColumn++ {
 			if b.IsAlive(currentRow, currentColumn) {
 				buffer.Write([]byte("□"))
 			} else {
