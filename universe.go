@@ -49,8 +49,8 @@ func (b *bufferedUniverse) Iterate() {
 func (b *bufferedUniverse) countLiveNeighbors(row, column int) int {
 	deltas := []int{-1, 0, 1}
 	liveNeighborCount := 0
-	for rowDelta := range deltas {
-		for columnDelta := range deltas {
+	for _, rowDelta := range deltas {
+		for _, columnDelta := range deltas {
 			if rowDelta == 0 && columnDelta == 0 {
 				continue
 			}
