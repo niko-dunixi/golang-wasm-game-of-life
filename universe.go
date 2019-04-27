@@ -27,6 +27,7 @@ func (b *bufferedUniverse) Generation() uint {
 func (b *bufferedUniverse) Iterate() {
 	for currentRow := 0; currentRow < b.RowCount(); currentRow++ {
 		for currentColumn := 0; currentColumn < b.ColumnCount(); currentColumn++ {
+			// https://rustwasm.github.io/docs/book/game-of-life/rules.html
 			// https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules
 			//    Any live cell with fewer than two live neighbours dies, as if by underpopulation.
 			//    Any live cell with two or three live neighbours lives on to the next generation.
