@@ -48,11 +48,7 @@ func setupCanvas() {
 	random = initializeRandom(params["seed"])
 	universe = NewRandomBufferedUniverse(int(params["rows"]), int(params["columns"]), random)
 
-	canvas = document.Call("createElement", "canvas")
-
-	body := document.Get("body")
-	body.Call("appendChild", canvas)
-
+	canvas = document.Call("getElementById", "canvas")
 	context = canvas.Call("getContext", "2d")
 
 	updateWindowSizeJSCallback := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
@@ -121,8 +117,8 @@ func resetWindowSize() {
 
 func draw() {
 	clearCanvas()
-	strokeStyle("white")
-	fillStyle("white")
+	strokeStyle("black")
+	fillStyle("black")
 	lineWidth(0.75)
 	padding := float64(4)
 	innerPadding := 2 * padding
