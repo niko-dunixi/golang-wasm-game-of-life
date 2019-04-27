@@ -125,7 +125,7 @@ func draw() {
 	clearCanvas()
 	strokeStyle("white")
 	fillStyle("white")
-	lineWidth(0.5)
+	lineWidth(4)
 	padding := float64(4)
 
 	squareSize := math.Min(windowSize.width/10, windowSize.height/10)
@@ -135,10 +135,9 @@ func draw() {
 		for column := 0; column < 10; column++ {
 			x := float64(column)*squareSize + padding
 			y := float64(row)*squareSize + padding
+			drawStrokeRect(x, y, side, side)
 			if universe.IsAlive(row, column) {
-				drawFillRect(x, y, side, side)
-			} else {
-				drawStrokeRect(x, y, side, side)
+				drawFillRect(x+8, y+8, side-16, side-16)
 			}
 		}
 	}
