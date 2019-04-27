@@ -1,8 +1,12 @@
-.PHONY: build-client build-server build clean gomodgen run
+.PHONY: build-client build-server build clean run test
 
 build:	clean build-client build-server
 
-build-client: gomodgen
+test:
+	export GO111MODULE=on
+	go test .
+
+build-client: go.sum test
 	export GO111MODULE=on
 	env GOARCH=wasm GOOS=js go build -ldflags="-s -w" -o bin/client.wasm .
 
@@ -19,4 +23,7 @@ clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
 go.mod:
-	go mod init "github.com/paul-nelson-baker/wasm-game-of-life"
+	env GO111MODULE=on go mod init "github.com/paul-nelson-baker/wasm-game-of-life"
+
+go.sum: go.mod
+	env GO111MODULE=on go mod vendor
