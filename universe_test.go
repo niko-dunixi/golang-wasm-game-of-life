@@ -30,10 +30,10 @@ func TestBufferedUniverse_IsAlive(t *testing.T) {
 	//   0000
 	u := NewBufferedUniverse(4, 4, func(b *[]bool) {
 		bools := *b
+		bools[5] = true
 		bools[6] = true
-		bools[7] = true
+		bools[9] = true
 		bools[10] = true
-		bools[11] = true
 	})
 	if u.IsDead(1, 1) || u.IsDead(1, 2) ||
 		u.IsDead(2, 1) || u.IsDead(2, 2) {
