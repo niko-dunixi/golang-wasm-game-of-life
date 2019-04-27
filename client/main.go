@@ -129,11 +129,11 @@ func draw() {
 	padding := float64(4)
 	innerPadding := 2 * padding
 
-	squareSize := math.Min(windowSize.width/10, windowSize.height/10)
+	squareSize := math.Min(windowSize.width/float64(universe.ColumnCount()), windowSize.height/float64(universe.RowCount()))
 	side := squareSize - padding*2
 
-	for row := 0; row < 10; row ++ {
-		for column := 0; column < 10; column++ {
+	for row := 0; row < universe.RowCount(); row++ {
+		for column := 0; column < universe.ColumnCount(); column++ {
 			x := float64(column)*squareSize + padding
 			y := float64(row)*squareSize + padding
 			drawStrokeRect(x, y, side, side)
