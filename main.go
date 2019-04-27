@@ -108,8 +108,9 @@ func setupRenderLoop() {
 
 func resetWindowSize() {
 	// https://stackoverflow.com/a/8486324/1478636
-	windowSize.width = window.Get("innerWidth").Float()
-	windowSize.height = window.Get("innerHeight").Float()
+	squareWindowSide := math.Min(window.Get("innerWidth").Float(), window.Get("innerHeight").Float()) - 25
+	windowSize.width = squareWindowSide
+	windowSize.height = squareWindowSide
 	canvas.Set("width", windowSize.width)
 	canvas.Set("height", windowSize.height)
 	messages <- fmt.Sprintf("WASM::resetWindowSize (%f x %f)", windowSize.width, windowSize.height)
