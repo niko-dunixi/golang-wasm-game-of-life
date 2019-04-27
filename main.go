@@ -46,7 +46,7 @@ func setupCanvas() {
 	params := parseUrlQueryParams(pageUrl)
 	messages <- fmt.Sprintf("WASM::setupCanvas Params: %+v", params)
 	random = initializeRandom(params["seed"])
-	universe = NewBufferedUniverse(int(params["rows"]), int(params["columns"]), random)
+	universe = NewRandomBufferedUniverse(int(params["rows"]), int(params["columns"]), random)
 
 	canvas = document.Call("createElement", "canvas")
 

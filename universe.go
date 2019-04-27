@@ -17,6 +17,7 @@ type Universe interface {
 	RowCount() int
 	ColumnCount() int
 	IsAlive(row, column int) bool
+	IsDead(row, column int) bool
 }
 
 func (b *bufferedUniverse) Generation() uint {
@@ -69,6 +70,14 @@ func (b *bufferedUniverse) ColumnCount() int {
 	return b.columns
 }
 
+func (b *bufferedUniverse) setAlive(row, column int, life bool) {
+	bufferIndex := b.currentBufferIndex()
+	row = forceInRange(row, b.RowCount())
+	column = forceInRange(column, b.ColumnCount())
+	index := asIndex(b.columns, row, column)
+	b.cells[bufferIndex][index] = life
+}
+
 func (b *bufferedUniverse) IsAlive(row, column int) bool {
 	bufferIndex := b.currentBufferIndex()
 	row = forceInRange(row, b.RowCount())
@@ -76,6 +85,10 @@ func (b *bufferedUniverse) IsAlive(row, column int) bool {
 	index := asIndex(b.columns, row, column)
 	isAlive := b.cells[bufferIndex][index]
 	return isAlive
+}
+
+func (b *bufferedUniverse) IsDead(row, column int) bool {
+	return !b.IsAlive(row, column)
 }
 
 func (b *bufferedUniverse) setNextLife(row, column int, life bool) {
@@ -121,16 +134,26 @@ func forceInRange(value, maxValue int) int {
 	return value
 }
 
-func NewBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse {
+type CellBufferInitializer func(b *[]bool)
+
+func NewRandomBufferedUniverse(rows, columns int, random *rand.Rand) *bufferedUniverse {
+	randomBufferInitializer := func(b *[]bool) {
+		size := len(*b)
+		for i := 0; i < size; i++ {
+			(*b)[i] = random.Intn(2) == 0
+		}
+	}
+	return NewBufferedUniverse(rows, columns, randomBufferInitializer)
+}
+
+func NewBufferedUniverse(rows, columns int, initializer CellBufferInitializer) *bufferedUniverse {
 	size := rows * columns
 	cellBuffer := [2][]bool{
 		make([]bool, size, size),
 		make([]bool, size, size),
 	}
 
-	for i := 0; i < size; i++ {
-		cellBuffer[0][i] = random.Intn(2) == 0
-	}
+	initializer(&cellBuffer[0])
 
 	return &bufferedUniverse{
 		generation: uint(0),
