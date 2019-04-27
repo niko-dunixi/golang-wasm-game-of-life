@@ -37,6 +37,6 @@ func TestBufferedUniverse_IsAlive(t *testing.T) {
 	})
 	if u.IsDead(1, 1) || u.IsDead(1, 2) ||
 		u.IsDead(2, 1) || u.IsDead(2, 2) {
-		t.Errorf("Cells weren't alive: %s", u)
+		t.Errorf("Cells weren't alive\n%s", u)
 	}
 }
