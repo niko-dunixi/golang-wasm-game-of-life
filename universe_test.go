@@ -63,4 +63,8 @@ func TestBufferedUniverse_Iterate(t *testing.T) {
 	if oscillatorOne.IsDead(1, 2) || oscillatorOne.IsDead(2, 2) || oscillatorOne.IsDead(3, 2) {
 		t.Errorf("Cells weren't alive\n%s", oscillatorOne)
 	}
+	oscillatorOne.Iterate()
+	if oscillatorOne.IsDead(2, 1) || oscillatorOne.IsDead(2, 2) || oscillatorOne.IsDead(2, 3) {
+		t.Errorf("Cells didn't iterate correctly\n%s", oscillatorOne)
+	}
 }
