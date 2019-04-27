@@ -15,21 +15,6 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="./wasm_exec.js"></script>
-    <script type="text/javascript">
-        async function run(fileUrl) {
-            try {
-                const file = await fetch(fileUrl);
-                const buffer = await file.arrayBuffer();
-                const go = new Go();
-                const {instance} = await WebAssembly.instantiate(buffer, go.importObject);
-                go.run(instance);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        setTimeout(() => run("./client.wasm"));
-    </script>
 </head>
 <body>
 <div class="container-fluid">
@@ -49,4 +34,20 @@
     </div>
 </div>
 </body>
+<footer>
+    <script type="text/javascript">
+        async function run(fileUrl) {
+            try {
+                const file = await fetch(fileUrl);
+                const buffer = await file.arrayBuffer();
+                const go = new Go();
+                const {instance} = await WebAssembly.instantiate(buffer, go.importObject);
+                go.run(instance);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        setTimeout(() => run("./client.wasm"));
+    </script>
+</footer>
 </html>
