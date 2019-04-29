@@ -123,7 +123,7 @@ func draw() {
 	fillStyle(color)
 	lineWidth(0.75)
 	padding := float64(4)
-	innerPadding := 2 * padding
+	innerPadding := 0.4 * padding
 
 	squareSize := math.Min(windowSize.width/float64(universe.ColumnCount()), windowSize.height/float64(universe.RowCount()))
 	side := squareSize - padding*2
