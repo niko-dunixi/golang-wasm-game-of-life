@@ -17,7 +17,7 @@
     <script type="text/javascript" src="./wasm_exec.js"></script>
     <style>
         body {
-            overflow:hidden;
+            overflow: hidden;
             background-color: #00a6a6;
         }
 
@@ -31,8 +31,10 @@
             background-color: #00a6a6;
         }
 
-        .title-section h1, .title-section h2 {
-            display: inline-block;
+        .title-section > div {
+            position: absolute;
+            bottom: 0;
+            right: 0;
         }
     </style>
 </head>
@@ -43,8 +45,11 @@
             <canvas id="canvas"/>
         </div>
         <div class="col-sm title-section">
-            <h1 class="align-bottom align-text-bottom">Conway's Game of Life</h1>
-            <h2 class="align-bottom align-text-bottom">A GoLang WASM Implementation</h2>
+            <div></div>
+            <div class="align-bottom">
+                <h1>Conway's Game of Life</h1>
+                <h2>A GoLang WASM Implementation</h2>
+            </div>
         </div>
     </div>
 </div>
