@@ -1,5 +1,5 @@
 # Conway's Game of Life
-## A GoLang and WASM Implementation
+## A [GoLang](https://golang.org/) and [WebAssembly](https://webassembly.org/) Implementation
 
 * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
 * Any live cell with two or three live neighbours lives on to the next generation.
