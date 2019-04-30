@@ -1,4 +1,4 @@
-# Conway's Game of Life
+# [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
 ## A [GoLang](https://golang.org/) and [WebAssembly](https://webassembly.org/) Implementation
 
 * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
