@@ -62,8 +62,8 @@ func setupCanvas() {
 func parseUrlQueryParams(pageUrl string) (params map[string]int64) {
 	currentTimeAsSeed := time.Now().UnixNano()
 	params = map[string]int64{
-		"rows":    50,
-		"columns": 50,
+		"rows":    25,
+		"columns": 25,
 		"seed":    currentTimeAsSeed,
 	}
 	parse, e := url.Parse(pageUrl)
@@ -123,7 +123,6 @@ func draw() {
 	fillStyle(color)
 	lineWidth(0.75)
 	padding := float64(4)
-	innerPadding := 0.4 * padding
 
 	squareSize := math.Min(windowSize.width/float64(universe.ColumnCount()), windowSize.height/float64(universe.RowCount()))
 	side := squareSize - padding*2
@@ -134,7 +133,7 @@ func draw() {
 			y := float64(row)*squareSize + padding
 			drawStrokeRect(x, y, side, side)
 			if universe.IsAlive(row, column) {
-				drawFillRect(x+innerPadding, y+innerPadding, side-(2*innerPadding), side-(2*innerPadding))
+				drawFillRect(x, y, side, side)
 			}
 		}
 	}
