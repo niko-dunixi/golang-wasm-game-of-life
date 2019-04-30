@@ -118,7 +118,7 @@ func resetWindowSize() {
 
 func draw() {
 	clearCanvas()
-	color := "#29335c"
+	color := "#ffffff"
 	strokeStyle(color)
 	fillStyle(color)
 	lineWidth(0.75)
