@@ -9,6 +9,6 @@
 ![Game of Life](game.gif)
 
 ## Running locally
-You'll need to install [GoLang](https://golang.org/), [Make](https://en.wikipedia.org/wiki/Make_%28software%29) first. Clone the project locally and then perform a `make run`.
+You'll need to install [GoLang](https://golang.org/) and [Make](https://en.wikipedia.org/wiki/Make_%28software%29) first. Clone the project locally and then perform a `make run`.
 
-Open your brownser to [localhost:4141](http://localhost:4141) to see the game play. You can add query parameters to adjust the `rows`, `columns`, and `seed`. For example [localhost:4141?rows=50&columns=50&seed=12345](http://localhost:4141?rows=50&columns=50&seed=12345)
+Open your browser to [localhost:4141](http://localhost:4141) to see the game play. You can add query parameters to adjust the `rows`, `columns`, and `seed`. For example [localhost:4141?rows=50&columns=50&seed=12345](http://localhost:4141?rows=50&columns=50&seed=12345)
