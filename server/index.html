@@ -46,6 +46,10 @@
             background-color: #00a6a6;
         }
 
+        .title-formatting {
+            color: #fff;
+        }
+
         .golang-formatting {
             color: #61dafb;
         }
@@ -54,7 +58,7 @@
             color: #654FF0;
         }
 
-        .golang-formatting, .wasm-formatting {
+        .title-formatting, .golang-formatting, .wasm-formatting {
             text-shadow: 0 0 8px #000;
             text-decoration: underline;
             text-decoration-color: #FFF;
@@ -120,7 +124,7 @@
         <canvas id="canvas"/>
     </div>
     <div class="title-area">
-        <h1>Conway's Game of Life</h1>
+        <h1><a class="title-formatting" href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life" target="_blank">Conway's Game of Life</a></h1>
     </div>
     <div class="text-area">
         <h2>A <a href="https://golang.org/" target="_blank" class="golang-formatting">GoLang</a> and <a
