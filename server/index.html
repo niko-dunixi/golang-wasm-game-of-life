@@ -3,54 +3,112 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     <script type="text/javascript" src="./wasm_exec.js"></script>
     <style>
-        body {
+        html, body {
+            padding: 0;
+            margin: 0;
             overflow: hidden;
-            background-color: #00a6a6;
-        }
-
-        .game-section {
-            background-color: #efca08;
-        }
-
-        .title-section {
             color: #fff;
-            text-align: right;
+            background-color: #00a6a6;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .game-container {
+            display: grid;
+        }
+
+        .game-area {
+            grid-area: game-area;
+            background-color: #efca08;
+            text-align: center;
+        }
+
+        .game-area > canvas {
+            display: inline;
+        }
+
+        .title-area {
+            grid-area: title-area;
+        }
+
+        .text-area {
+            grid-area: text-area;
+        }
+
+        .title-area, .text-area {
             background-color: #00a6a6;
         }
 
-        .title-section > div {
-            position: absolute;
-            bottom: 0;
-            right: 0;
+        @media screen and (min-width: 70em) {
+            .title-area h2 {
+                position: absolute;
+                bottom: 0;
+            }
+
+            .title-area, .text-area {
+                text-align: right;
+            }
+
+            .game-container {
+                grid-template-columns: 2fr 1fr;
+                grid-template-areas: "game-area title-area" "game-area text-area";
+            }
         }
+
+        @media screen and (min-width: 25em) and (max-width: 70em) {
+            .title-area h2 {
+                position: absolute;
+                bottom: 0;
+            }
+
+            .title-area {
+                text-align: right;
+            }
+
+            .text-area {
+                text-align: center;
+            }
+
+            .game-container {
+                grid-template-rows: 0.25fr 3fr 1fr;
+                grid-template-areas: "title-area text-area" "game-area game-area";
+            }
+        }
+
+        @media screen and (max-width: 25em) {
+            .title-area h2 {
+                position: absolute;
+                bottom: 0;
+            }
+
+            .title-area {
+                text-align: right;
+            }
+
+            .text-area {
+                text-align: center;
+            }
+
+            .game-container {
+                grid-template-columns: 0.25fr 3fr 1fr;
+                grid-template-areas: "title-area" "game-area" "text-area";
+            }
+        }
+
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md game-section">
-            <canvas id="canvas"/>
-        </div>
-        <div class="col-sm title-section">
-            <div></div>
-            <div class="align-bottom">
-                <h1>Conway's Game of Life</h1>
-                <h2>A GoLang WASM Implementation</h2>
-            </div>
-        </div>
+<div class="game-container">
+    <div class="game-area">
+        <canvas id="canvas"/>
+    </div>
+    <div class="title-area">
+        <h1>Conway's Game of Life</h1>
+    </div>
+    <div class="text-area">
+        <h2>A GoLang WASM Implementation</h2>
     </div>
 </div>
 </body>
