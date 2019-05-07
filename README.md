@@ -1,4 +1,7 @@
 # [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life)
+
+This is the project to accompany the [blog post on my website](https://www.paulfreaknbaker.com/posts/golang-wasm-game-of-life/)
+
 ## A [GoLang](https://golang.org/) and [WebAssembly](https://webassembly.org/) Implementation
 
 * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
